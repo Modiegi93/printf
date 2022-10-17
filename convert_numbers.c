@@ -45,7 +45,7 @@ unsigned int convert_di(va_list args, ourBuffer *output,
 		if (ZERO_FLAG == 1 && PLUS_FLAG == 1 && d >= 0)
 			ret += _memcpy(output, &plus, 1);
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
-		for (wid == count; wid > 0; wid--)
+		for (wid -= count; wid > 0; wid--)
 			ret += _memcpy(output, &pad, 1);
 	}
 	if (ZERO_FLAG == 0 && d < 0)
@@ -55,5 +55,98 @@ unsigned int convert_di(va_list args, ourBuffer *output,
 	if (!(d == 0 && prec == 0))
 		ret += convert_sbase(output, d, "0123456789", flags, 0, prec);
 	ret += print_neg_width(output, ret, flags, wid);
+	return (ret);
+}
+
+/**
+ * convert_b - convert an unsigned int argument to binary
+ * and stores it to a buffer contained in a struct
+ * @args: a va_list pointing to the argument to be converted
+ * @flags: A flag modifier
+ * @wid: A wid modifier
+ * @prec: A precision modifier
+ * @len: A length modifier
+ * @output: a ourBuffer containing a character array
+ *
+ * Return: The number of bytes stored to the buffer
+ */
+unsigned int convert_b(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len)
+{
+	unsigned int num;
+
+	num = va_arg(args, unsigned int);
+
+	(void)len;
+
+	return (convert_ubase(output, num, "01", flags, wid, prec));
+}
+
+/**
+ * convert_o - converts an unsigned int to octal and
+ * stores it to a buffer contained in a struct.
+ * @args: a va_list pointing to the argument  to be converted
+ * @flags: A flag modifiers
+ * @wid: A width modifier
+ * @prec: A precision modifier
+ * @len: A len modifier
+ * @output: ourBuffer struct containing a character array
+ *
+ * Return: the number of bytes stored to the buffer
+ */
+unsigned int convert_o(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len)
+{
+	unsigned long int num;
+	unsigned int ret = 0;
+	char zero = '0';
+
+	if (len == LONG)
+		num = va_arg(args, unsigned long int);
+	else
+		num = va_arg(args, unsigned int);
+
+	if (len == SHORT)
+		num = (unsigned short)num;
+
+	if (HASH_FLAG == 1 && num != 0)
+		ret += _memcpy(output, &zero, 1);
+	if (!(num == 0 && prec == 0))
+		ret += convert_ubase(output, num, "01234567", flags, wid, prec);
+	ret += print_neg_width(output, ret, flags, wid);
+	return (ret);
+}
+
+/**
+ * convert_u - onverts an unsigned int to decimal
+ * stores it to a buffer contained in a struct.
+ * @args: a va_list pointing to the argument to be converted
+ * @flags: A flag modifiers
+ * @wid: A width modifier
+ * @prec: A precision modifier
+ * @len: A len modifier
+ * @output: A buffer_t struct containing a character array.
+ * Return: the number of bytes stored to the buffer
+ */
+unsigned int convert_u(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len)
+{
+	unsigned long int num;
+	unsigned int ret = 0;
+
+	if (len == LONG)
+		num = va_arg(args, unsigned long int);
+
+	else
+		num = va_arg(args, unsigned int);
+
+	if (len == SHORT)
+		num = (unsigned short)num;
+
+	if (!(num == 0 && prec == 0))
+		ret += convert_ubase(output, num, "0123456789", flags, wid, prec);
+
+	ret += print_neg_width(output, ret, flags, wid);
+
 	return (ret);
 }
