@@ -12,6 +12,10 @@
 #define HASH 4
 #define ZERO 8
 #define NEG 16
+#define PLUS_FLAG (flags & 1)
+#define SPACE_FLAG ((flags >> 1) & 1)
+#define HASH_FLAG ((flags >> 2) & 1)
+#define ZERO_FLAG ((flags >> 3) & 1)
 #define NEG_FLAG ((flags >> 4) & 1)
 
 /* Length Modifier Macros */
@@ -63,6 +67,14 @@ unsigned int convert_s(va_list args, ourBuffer *output,
 		unsigned char flags, int wid, int prec, unsigned char len);
 unsigned int convert_percent(va_list args, ourBuffer *output,
 		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_di(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_b(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_u(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
+unsigned int convert_o(va_list args, ourBuffer *output,
+		unsigned char flags, int wid, int prec, unsigned char len);
 
 /* Handlers */
 unsigned char handle_flags(const char *flags, char *index);
@@ -78,9 +90,12 @@ unsigned int print_string_width(ourBuffer *output,
 unsigned int print_neg_width(ourBuffer *output, unsigned int printed,
 		unsigned char flags, int wid);
 
-/* Memory Mananger */
+/* Memory Manager */
 ourBuffer *init_buffer(void);
 void free_buffer(ourBuffer *output);
 unsigned int _memcpy(ourBuffer *output, const char *src, unsigned int n);
-
+unsigned int convert_sbase(ourBuffer *output, long int num, char *base,
+		unsigned char flags, int wid, int prec);
+unsigned int convert_ubase(ourBuffer *output, unsigned long int num, char *base,
+		unsigned char flags, int wid, int prec);
 #endif /* MAIN_H */
