@@ -1,9 +1,5 @@
 #include "main.h"
 
-// void cleanup(va_list args, buffer_t *output);
-// int run_printf(const char *format, va_list args, buffer_t *output);
-// int _printf(const char *format, ...);
-
 /**
  * cleanup - Peforms cleanup operations for _printf.
  * @args: A va_list of arguments provided to _printf.
@@ -26,7 +22,7 @@ void cleanup(va_list args, ourBuffer *output)
  */
 int run_printf(const char *format, va_list args, ourBuffer *output)
 {
-	int i, wid, prec, ret = 0;
+	int i, wid, prec = 0, ret = 0;
 	char tmp;
 	unsigned char flags, len;
 	unsigned int (*f)(va_list, ourBuffer *,
@@ -34,7 +30,7 @@ int run_printf(const char *format, va_list args, ourBuffer *output)
 
 	for (i = 0; *(format + i); i++)
 	{
-		//len = 0;
+		len = 0;
 		if (*(format + i) == '%')
 		{
 			tmp = 0;
@@ -54,7 +50,7 @@ int run_printf(const char *format, va_list args, ourBuffer *output)
 			}
 		}
 		ret += _memcpy(output, (format + i), 1);
-		//i += (len != 0) ? 1 : 0;
+		i += (len != 0) ? 1 : 0;
 	}
 	cleanup(args, output);
 	return (ret);
