@@ -1,5 +1,9 @@
 #include "main.h"
 
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n);
+void free_buffer(buffer_t *output);
+buffer_t *init_buffer(void);
+
 /**
  * _memcpy - Copies n bytes from memory area src to
  *           the buffer contained in a buffer_t struct.
@@ -9,7 +13,7 @@
  *
  * Return: The number of bytes copied.
  */
-unsigned int _memcpy(ourBuffer *output, const char *src, unsigned int n)
+unsigned int _memcpy(buffer_t *output, const char *src, unsigned int n)
 {
 	unsigned int index;
 
@@ -36,7 +40,7 @@ unsigned int _memcpy(ourBuffer *output, const char *src, unsigned int n)
  * free_buffer - Frees a buffer_t struct.
  * @output: The buffer_t struct to be freed.
  */
-void free_buffer(ourBuffer *output)
+void free_buffer(buffer_t *output)
 {
 	free(output->start);
 	free(output);
@@ -47,11 +51,11 @@ void free_buffer(ourBuffer *output)
  *
  * Return: A pointer to the initialized buffer_t.
  */
-ourBuffer *init_buffer(void)
+buffer_t *init_buffer(void)
 {
-	ourBuffer *output;
+	buffer_t *output;
 
-	output = malloc(sizeof(ourBuffer));
+	output = malloc(sizeof(buffer_t));
 	if (output == NULL)
 		return (NULL);
 	
