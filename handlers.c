@@ -27,7 +27,6 @@ unsigned char handle_flags(const char *flag, char *index)
 		{'-', NEG},
 		{0, 0}
 	};
-
 	for (i = 0; flag[i]; i++)
 	{
 		for (j = 0; flags[j].flag != 0; j++)
@@ -45,7 +44,6 @@ unsigned char handle_flags(const char *flag, char *index)
 		if (flags[j].value == 0)
 			break;
 	}
-
 	return (ret);
 }
 
@@ -64,13 +62,11 @@ unsigned char handle_length(const char *modifier, char *index)
 		(*index)++;
 		return (SHORT);
 	}
-
 	else if (*modifier == 'l')
 	{
 		(*index)++;
 		return (LONG);
 	}
-
 	return (0);
 }
 
@@ -103,13 +99,12 @@ int handle_width(va_list args, const char *modifier, char *index)
 		value += (*modifier - '0');
 		modifier++;
 	}
-
 	return (value);
 }
 
 /**
  * handle_precision - Matches a precision modifier with
- *                    its corresponding value.
+ * its corresponding value.
  * @args: A va_list of arguments.
  * @modifier: A pointer to a potential precision modifier.
  * @index: An index counter for the original format string.
@@ -153,13 +148,12 @@ int handle_precision(va_list args, const char *modifier, char *index)
 		value += (*modifier - '0');
 		modifier++;
 	}
-
 	return (value);
 }
 
 /**
  * handle_specifiers - Matches a conversion specifier with
- *                     a corresponding conversion function.
+ * a corresponding conversion function.
  * @specifier: A pointer to a potential conversion specifier.
  *
  * Return: If a conversion function is matched - a pointer to the function.
@@ -186,12 +180,10 @@ unsigned int (*handle_specifiers(const char *specifier))(va_list, buffer_t *,
 		{'R', convert_R},
 		{0, NULL}
 	};
-
 	for (i = 0; converters[i].func; i++)
 	{
 		if (converters[i].specifier == *specifier)
 			return (converters[i].func);
 	}
-
 	return (NULL);
 }
